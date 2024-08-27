@@ -1,3 +1,4 @@
+//SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.0;
 
 import "./Token.sol";
@@ -17,7 +18,12 @@ contract Crowdsale {
 		) {
 		token = _token;
 		price = _price;
-		maxTokens = _maxTokens
+		maxTokens = _maxTokens;
+	}
+
+	receive() external payable {
+		uint256 amount = msg.value / price;
+		buyTokens(amount * 1e18);
 	}
 
 	function buyTokens(uint256 _amount) public payable {

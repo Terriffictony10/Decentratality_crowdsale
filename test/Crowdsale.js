@@ -14,13 +14,11 @@ describe("Crowdsale", () => {
 		const Crowdsale = await ethers.getContractFactory("Crowdsale")
 		const Token = await ethers.getContractFactory("Token")
 		token = await Token.deploy("Decentratality", 'DHPT', '1000000')
-
 		accounts = await ethers.getSigners()
 		deployer = accounts[0]
 		user1 = accounts[1]
 
 		crowdsale = await Crowdsale.deploy(token.address, ether(1), '1000000')
-
 		let transaction = await token.connect(deployer).transfer(crowdsale.address, tokens(1000000))
 		await transaction.wait()
 	})
@@ -67,6 +65,28 @@ describe("Crowdsale", () => {
 				await expect(crowdsale.connect(user1).buyTokens(tokens(10), { value: 0 })).to.be.reverted
 			})
 		})
+	})
+
+	describe('Sending ETH', () => {
+		let transaction, result, tx
+		let amount = ether(10)
+		describe("Success", () => {
+
+			beforeEach(async () => {
+				transaction = await user1.sendTransaction({ to: crowdsale.address, value: amount })
+				result = await transaction.wait()
+			})
+			
+			it('updates contracts ether balance', async () => {
+				expect(await ethers.provider.getBalance(crowdsale.address)).to.equal(amount)
+			})
+
+			it('updates user token balance', async () => {
+				expect(await token.balanceOf(user1.address)).to.equal(amount)
+			})
+
+		})
+
 	})
 })
 
