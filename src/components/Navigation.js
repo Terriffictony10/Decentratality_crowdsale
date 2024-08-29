@@ -10,7 +10,7 @@ const Navigation = () => {
     src={logo} 
     width="40" 
     height="40"
-    clasName="d-inline-block align-top mx-3"
+    className="d-inline-block align-top mx-3"
     />
     <Navbar.Brand href="#">Decentratality ICO Crowdsale</Navbar.Brand>
     </Navbar>
