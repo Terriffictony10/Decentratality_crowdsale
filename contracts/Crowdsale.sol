@@ -7,7 +7,7 @@ contract Crowdsale {
 	address public owner;
 	Token public token;
 	uint256 public price;
-	uint256 maxTokens;
+	uint256 public maxTokens;
 	uint256 public tokensSold;
 	
 	event Buy(uint256 amount, address buyer);
