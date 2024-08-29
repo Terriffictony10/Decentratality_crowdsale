@@ -12,6 +12,11 @@ function App() {
 	const [provider, setProvider] = useState(null)
 	const [crowdsale, setCrowdsale] = useState(null)
 	const [account, setAccount] = useState(null)
+	const [accountBalance, setAccountBalance] = useState(null)
+
+	const [price, setPrice] = useState(null)
+	const [maxTokens, setMaxTokens] = useState(null)
+	const [tokensSold, setTokensSold] = useState(null)
 
 	const [isLoading, setIsLoading] = useState(true)
 
@@ -33,7 +38,14 @@ function App() {
 		setAccount(account)
 
 		const accountBalance = ethers.utils.formatUnits(await token.balanceOf(account))
-		console.log(accountBalance)
+		setAccountBalance(accountBalance)
+
+		const price = await crowdsale.price()
+
+		const maxTokens = await crowdsale.maxTokens()
+
+		const tokensSold = await crowdsale.tokensSold()
+
 
 		setIsLoading(false)
 	}
@@ -46,7 +58,7 @@ function App() {
 		<Container>
 			<Navigation />
 			{account && (
-				<Info account={account} />
+				<Info account={account} accountBalance={accountBalance} />
 			)}
 			
 		</Container>
