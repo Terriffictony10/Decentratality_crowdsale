@@ -4,9 +4,10 @@ import { ethers } from 'ethers'
 
 // Components
 import Navigation from './Navigation';
+import Buy from './Buy';
+import Progress from './Progress';
 import Info from './Info';
 import Loading from './Loading';
-import Progress from './Progress';
 
 // Artifacts
 import CROWDSALE_ABI from '../abis/Crowdsale.json'
@@ -71,27 +72,29 @@ function App() {
     }
   }, [isLoading])
 
- return(
-		<Container>
-			<Navigation />
+  return (
+    <Container>
+      <Navigation />
 
-			<h1 className="my-4 text-center"> Introducing the Decentratality Token! </h1>
+      <h1 className='my-4 text-center'>Introducing DApp Token!</h1>
 
-			{isLoading ? (
-				<Loading />
-			) : (
-				<>
-				<p className='text-center'><strong>Current Price:</strong> {price} ETH</p>
-				<Progress maxTokens={maxTokens} tokensSold={tokensSold} />			
-				</>
-			)}
-			<hr />
-			{account && (
-				<Info account={account} accountBalance={accountBalance} />
-			)}
-			
-		</Container>
-	);
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <p className='text-center'><strong>Current Price:</strong> {price} ETH</p>
+          <Buy provider={provider} price={price} crowdsale={crowdsale} setIsLoading={setIsLoading} />
+          <Progress maxTokens={maxTokens} tokensSold={tokensSold} />
+        </>
+      )}
+
+      <hr />
+
+      {account && (
+        <Info account={account} accountBalance={accountBalance} />
+      )}
+    </Container>
+  );
 }
 
 export default App;
